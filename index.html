@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hiii</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --gradient-start: #ffafbd;
+      --gradient-end: #ffc3a0;
+      --heart-color: #ff6b9d;
+      --heart-color-alt: #ff8fab;
+    }
+
+    html, body {
+      min-height: 100vh;
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    body {
+      font-family: 'Fredoka', sans-serif;
+      background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 50%, #ffd4c4 100%);
+      background-size: 200% 200%;
+      animation: gradientShift 12s ease infinite;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      position: relative;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Floating hearts container */
+    .hearts-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      opacity: 0.4;
+      animation: floatUp linear infinite;
+      bottom: -30px;
+    }
+
+    .heart::before {
+      content: "❤";
+      color: var(--heart-color);
+    }
+
+    .heart:nth-child(2n)::before { color: var(--heart-color-alt); }
+    .heart:nth-child(3n)::before { content: "💕"; }
+    .heart:nth-child(5n)::before { content: "💗"; }
+
+    .heart:nth-child(1) { left: 5%; animation-duration: 8s; animation-delay: 0s; font-size: 16px; }
+    .heart:nth-child(2) { left: 15%; animation-duration: 10s; animation-delay: 1s; font-size: 22px; }
+    .heart:nth-child(3) { left: 25%; animation-duration: 7s; animation-delay: 2s; font-size: 14px; }
+    .heart:nth-child(4) { left: 35%; animation-duration: 9s; animation-delay: 0.5s; font-size: 20px; }
+    .heart:nth-child(5) { left: 45%; animation-duration: 11s; animation-delay: 3s; font-size: 18px; }
+    .heart:nth-child(6) { left: 55%; animation-duration: 8.5s; animation-delay: 1.5s; font-size: 24px; }
+    .heart:nth-child(7) { left: 65%; animation-duration: 10.5s; animation-delay: 2.5s; font-size: 16px; }
+    .heart:nth-child(8) { left: 75%; animation-duration: 7.5s; animation-delay: 0.8s; font-size: 20px; }
+    .heart:nth-child(9) { left: 85%; animation-duration: 9.5s; animation-delay: 2s; font-size: 14px; }
+    .heart:nth-child(10) { left: 92%; animation-duration: 12s; animation-delay: 1s; font-size: 22px; }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.4;
+      }
+      50% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(15deg);
+        opacity: 0;
+      }
+    }
+
+    /* Main card - glassmorphism, fits viewport */
+    .card {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.38);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 28px;
+      padding: 24px 28px;
+      max-width: 520px;
+      width: 100%;
+      max-height: calc(100vh - 32px);
+      box-shadow: 0 8px 32px rgba(255, 255, 255, 0.35),
+                  0 0 0 1px rgba(255, 255, 255, 0.5);
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  box-shadow 0.6s ease;
+      text-align: center;
+      animation: cardEntrance 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                 cardFloat 6s ease-in-out infinite 1s;
+    }
+
+    .card.celebrating {
+      transform: scale(1.5);
+      animation: celebrateGlow 1.2s ease-in-out infinite alternate;
+      box-shadow: 0 0 48px rgba(255, 107, 157, 0.4),
+                  0 8px 32px rgba(255, 255, 255, 0.35);
+    }
+
+    @keyframes cardEntrance {
+      from {
+        opacity: 0;
+        transform: scale(0.85) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes cardFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes celebrateGlow {
+      from { box-shadow: 0 0 40px rgba(255, 107, 157, 0.35), 0 8px 32px rgba(255,255,255,0.35); }
+      to { box-shadow: 0 0 56px rgba(255, 107, 157, 0.5), 0 8px 32px rgba(255,255,255,0.35); }
+    }
+
+    .card h1,
+    .card #question {
+      font-size: clamp(0.875rem, 2vw, 1.05rem);
+      font-weight: 500;
+      color: #4a3542;
+      line-height: 1.7;
+      letter-spacing: 0.02em;
+      max-width: 100%;
+      word-wrap: break-word;
+      hyphens: auto;
+      white-space: pre-line;
+      text-align: left;
+      margin-bottom: 0;
+      padding: 0 2px;
+    }
+
+    .card #question {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      margin-bottom: 16px;
+      padding: 4px 2px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .gif-wrap {
+      flex: 0 0 auto;
+      width: 100%;
+      max-height: min(220px, 28vh);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      background: rgba(255, 255, 255, 0.4);
+      animation: gifBreathe 5s ease-in-out infinite;
+    }
+
+    @keyframes gifBreathe {
+      0%, 100% { transform: scale(1); box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+      50% { transform: scale(1.02); box-shadow: 0 8px 28px rgba(255, 107, 157, 0.12); }
+    }
+
+    .gif-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .buttons-wrap {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      position: relative;
+      min-height: 48px;
+    }
+
+    .btn {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      border-radius: 50px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-yes {
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+      color: white;
+      box-shadow: 0 4px 20px rgba(255, 107, 157, 0.5);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .btn-yes:hover {
+      animation: none;
+      transform: scale(1.05);
+      box-shadow: 0 6px 24px rgba(255, 107, 157, 0.6);
+    }
+
+    .btn-yes:active {
+      transform: scale(0.98);
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .btn-no {
+      padding: 12px 28px;
+      background: rgba(255, 255, 255, 0.8);
+      color: #8b5a6b;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      transition: left 0.2s ease, top 0.2s ease;
+    }
+
+    .btn-no:hover,
+    .btn-no:active {
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .hidden {
+      visibility: hidden;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts-bg" aria-hidden="true">
+    <span class="heart"></span>
+    <span class="heart"></span>
+    <span class="heart"></span>
+    <span class="heart"></span>
+    <span class="heart"></span>
+    <span class="heart"></span>
+    <span class="heart"></span>
+    <span class="heart"></span>
+    <span class="heart"></span>
+    <span class="heart"></span>
+  </div>
+
+  <main class="card" id="card">
+    <p id="question">
+      Hi Ayushi 👋
+
+I wasn’t sure if I could say all this to you over a call or face-to-face 😅. You know I freeze in these conversations unless it’s a pitch or a debate (ironically 🤦‍♂️). So writing this felt like the safest, least awkward option ✍️🙂.
+
+We’ve known each other for a long time, but somehow never really known each other. COVID ate up our diploma days 🦠, then bachelor life happened 🎓, and we went on our own routes 🚶‍♂️🚶‍♀️. When I found out we’d be working at the same company, I honestly thought, “Okay, finally, some time to know her better.” But life said, nice try 😌.
+
+At some point (recently) ⏳, I realised there’s never a perfect moment for this stuff. If I keep waiting, someone else might say it first—and I didn’t want that regret 😬. Writing this is still harder than any presentation, by the way 😵‍💫.
+
+So here it is 💭: I’ve always kind of had a thing for you ❤️, I just never knew if it was mutual. If you feel the same, maybe we could hang out ☕, go on a “not-sure-what-to-call-it” date 😉, and see where it goes 🌱. And if you don’t, totally cool—no awkwardness, no stress 🤍.
+
+So… do you feel the same? 🥺
+
+Either way, thanks for reading this 😊.
+(And yes, pitching is still 1000x easier than this 😅)
+    </p>
+    <div class="gif-wrap" id="gifWrap">
+      <img id="gif" src="https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif" alt="Cute pleading cat" width="400" height="300">
+    </div>
+    <div class="buttons-wrap">
+      <button type="button" class="btn btn-yes" id="btnYes">Yes! 💕</button>
+      <button type="button" class="btn btn-no" id="btnNo">No</button>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const card = document.getElementById('card');
+      const question = document.getElementById('question');
+      const gif = document.getElementById('gif');
+      const gifWrap = document.getElementById('gifWrap');
+      const btnYes = document.getElementById('btnYes');
+      const btnNo = document.getElementById('btnNo');
+
+      const celebratingGif = 'https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif';
+      const successText = "Yay! I knew you'd say yes! ❤️";
+
+      const padding = 8;
+
+      function getRandomPositionNearGif() {
+        const btnRect = btnNo.getBoundingClientRect();
+        const w = btnRect.width;
+        const h = btnRect.height;
+        const gifRect = gifWrap.getBoundingClientRect();
+        /* Zone: only within/around the GIF area - left, top, width, height of gif box */
+        const zoneLeft = gifRect.left;
+        const zoneTop = gifRect.top;
+        const zoneWidth = Math.max(gifRect.width - w, 1);
+        const zoneHeight = Math.max(gifRect.height - h, 1);
+        let x = zoneLeft + Math.random() * zoneWidth;
+        let y = zoneTop + Math.random() * zoneHeight;
+        /* Clamp strictly to viewport so button never goes off-screen */
+        const maxX = window.innerWidth - w - padding;
+        const maxY = window.innerHeight - h - padding;
+        x = Math.max(padding, Math.min(x, maxX));
+        y = Math.max(padding, Math.min(y, maxY));
+        return { x, y };
+      }
+
+      function moveNoButton() {
+        const pos = getRandomPositionNearGif();
+        btnNo.style.position = 'fixed';
+        btnNo.style.left = pos.x + 'px';
+        btnNo.style.top = pos.y + 'px';
+        btnNo.style.zIndex = '10';
+      }
+
+      btnNo.addEventListener('mouseover', moveNoButton);
+      btnNo.addEventListener('touchstart', function (e) {
+        e.preventDefault();
+        moveNoButton();
+      }, { passive: false });
+
+      btnYes.addEventListener('click', function () {
+        card.classList.add('celebrating');
+        question.textContent = successText;
+        gif.src = celebratingGif;
+        gif.alt = 'Celebration';
+        btnNo.classList.add('hidden');
+      });
+    })();
+  </script>
+</body>
+</html>
